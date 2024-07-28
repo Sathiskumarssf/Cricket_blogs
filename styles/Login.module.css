@@ -1,0 +1,139 @@
+.background {
+    background-image: url('../app/pages/Abstract-HD-wallpaper-11974.jpg');
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  
+  .loginContainer {
+    background-color: darkslategray;
+    width: 30%;
+    height: 60%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 1rem;
+    padding: 20px;
+  }
+  
+  .loginHeader {
+    background-color: #3cbac8;
+    padding: 15px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    color: white;
+    text-align: center;
+  }
+  
+  .loginContent {
+    margin-top: 20px;
+    text-align: center;
+  }
+  
+  .inputGroup {
+    position: relative;
+    margin-bottom: 20px;
+  }
+  
+  .icon {
+    font-size: 1.5rem;
+    color: white;
+  }
+  
+  .inputs {
+    width: 90%;
+    margin-left: 10px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    background-color: rgb(48, 123, 98);
+    color: white;
+    border-bottom: 1px solid white;
+    padding-right: 40px;
+  }
+  
+  .inputs::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+  }
+  
+  .eyeIcon {
+    position: absolute;
+    color: black;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+  }
+  
+  .loginBtn {
+    background-color: #3cbac8;
+    color: white;
+    width: 100%;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+  }
+  
+  .loginBtn:hover {
+    background-color: #2ea6a6;
+  }
+  
+  /* Media query for iPad and tablets */
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .loginContainer {
+      width: 50%;
+      padding: 15px;
+      height: 50%;
+    }
+  
+    .loginBtn {
+      width: 90%;
+      padding: 10px;
+    }
+  }
+  
+  /* Media query for mobile phones */
+  @media (max-width: 480px) {
+    .loginContainer {
+      width: 90%;
+      padding: 10px;
+      height: 40%;
+      top: 45%;
+      height:65%
+    }
+
+    .inputs {
+        width: 85%;
+        margin-right: 0%;
+    }
+  
+  
+    .loginBtn {
+      width: 100%;
+      padding: 10px;
+    }
+
+    .icon {
+        font-size: 1.2rem;
+    }
+  }
+  
+  /* Media query for small screens */
+  @media (min-width: 480px) and (max-width: 768px) {
+    .loginContainer {
+      width:70%;
+      padding: 10px;
+      height:50%;
+    }
+  
+    .loginBtn {
+      width: 100%;
+      padding: 10px;
+    }
+  }
+  
