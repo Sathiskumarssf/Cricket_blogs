@@ -2,13 +2,14 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
 import login from '../../../styles/Login.module.css';
 import Navbar from '@/components/Navbar';
 
 const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('');  
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);

@@ -9,7 +9,7 @@ function Posts() {
   useEffect(() => {
     const fetchPosts = async () => {
       try {
-        const response = await fetch('/api/posts'); // Correct API path
+        const response = await fetch('http://localhost:3000/api/posts'); // Correct API path
         if (!response.ok) {
           throw new Error('Network response was not ok');
         }

@@ -21,15 +21,33 @@ const RegisterPage = () => {
     setConfirmPasswordVisible(!confirmPasswordVisible);
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle the registration logic here, e.g., send the data to a server
-    console.log({
-      name,
-      email,
-      password,
-      confirmPassword
-    });
+
+    if (password !== confirmPassword) {
+      alert('Passwords do not match');
+      return;
+    }
+
+    try {
+       
+      const response = await fetch('http://localhost:3000/api/posts', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ name, email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      console.log(data); // Handle success, e.g., redirect to another page or show success message
+    } catch (error) {
+      console.error('Error:', error); // Handle error, e.g., show error message
+    }
   };
 
   return (
