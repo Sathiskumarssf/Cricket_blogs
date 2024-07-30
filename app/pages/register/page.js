@@ -12,6 +12,7 @@ const RegisterPage = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const [message,setMessage] =useState('');
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
@@ -23,6 +24,7 @@ const RegisterPage = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    let action= "register";
 
     if (password !== confirmPassword) {
       alert('Passwords do not match');
@@ -31,12 +33,13 @@ const RegisterPage = () => {
 
     try {
        
-      const response = await fetch('http://localhost:3000/api/posts', {
+      const response = await fetch('http://localhost:3000/api/authentication', {
+        
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ name, email, password }),
+        body: JSON.stringify({action,name, email, password }),
       });
 
       if (!response.ok) {
@@ -44,6 +47,10 @@ const RegisterPage = () => {
       }
 
       const data = await response.json();
+      if(data.message ==="User registered successfully"){
+        setMessage('Account successfully created ')
+        setTimeout(() => setMessage(''), 3000);
+      }
       console.log(data); // Handle success, e.g., redirect to another page or show success message
     } catch (error) {
       console.error('Error:', error); // Handle error, e.g., show error message
@@ -58,6 +65,7 @@ const RegisterPage = () => {
           <h2>REGISTER</h2>
         </div>
         <div className={register.registerContent}>
+        {message && <div className={register.message}>{message}</div>}
           <form onSubmit={handleSubmit}>
             <div className={register.inputGroup}>
               <FontAwesomeIcon icon={faUser} className={register.icon} />
