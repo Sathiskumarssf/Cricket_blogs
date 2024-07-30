@@ -1,0 +1,8 @@
+.background {
+    background-image: url('../assets/Abstract-HD-wallpaper-11974.jpg');
+    background-position: center;
+    width: 100vw;
+    height: 100vh;
+    background-repeat: no-repeat;
+    background-size: cover;
+}

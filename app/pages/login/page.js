@@ -1,24 +1,49 @@
-"use client";
+"use client"; // Ensure this is at the top of your file
+
 import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faLock, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
 import login from '../../../styles/Login.module.css';
 import Navbar from '@/components/Navbar';
 
 const LoginPage = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');  
+  const [password, setPassword] = useState('');
+  const [errorMessage, setErrorMessage] = useState(''); // State for error message
+  const router = useRouter();
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    // Handle the login logic here, e.g., send the data to a server
-    console.log({ email, password });
+  const handleSubmit = async (e) => {
+    e.preventDefault(); // Prevent default form submission
+    try {
+      const response = await fetch('/api/authentication', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ action: 'login', email, password }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+
+      const data = await response.json();
+      if (data.message === 'User authenticated successfully') {
+        router.push('/ '); // Navigate to the home page
+      } else if (data.message === 'Invalid credentials') {
+        setErrorMessage('Password incorrect'); // Set error message
+        setTimeout(() => setErrorMessage(''), 3000);
+      }
+    } catch (error) {
+      console.error('There was a problem with the fetch operation:', error);
+      // Additional error handling logic
+    }
   };
 
   return (
@@ -29,6 +54,7 @@ const LoginPage = () => {
           <h2>CUSTOMER LOGIN</h2>
         </div>
         <div className={login.loginContent}>
+          {errorMessage && <div className={login.errorMessage}>{errorMessage}</div>} {/* Display error message */}
           <form onSubmit={handleSubmit}>
             <div className={login.inputGroup}>
               <FontAwesomeIcon icon={faEnvelope} className={login.icon} />

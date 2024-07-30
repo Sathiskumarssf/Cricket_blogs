@@ -1,0 +1,60 @@
+.teamsContainer {
+  display: flex;
+  align-items: center;
+}
+
+.itermdiv{
+  padding: 1rem;
+}
+
+.teamsList {
+  display: flex;
+  overflow: hidden;
+  width: 100%;
+  color: aliceblue;
+}
+
+.itermname {
+  font-size: 2rem; /* Adjust as needed */
+  font-weight: normal; /* Adjust as needed */
+  transition: color 0.3s ease, text-decoration-color 0.3s ease; /* Smooth transition for color change */
+}
+
+/* Hover effect */
+.itermname:hover {
+  cursor: pointer;
+  background-color: yellow;
+  color: black;
+  text-decoration-color: yellow; /* Underline color */
+  text-decoration-thickness: 2px; /* Adjust thickness if needed */
+}
+
+.teamItem {
+  flex: 0 0 20%;
+  transition: transform 0.5s ease-in-out;
+  padding-left: 3rem;
+  padding-right: 1rem;
+}
+
+.prev .teamItem {
+  transform: translateX(-100%);
+}
+
+.next .teamItem {
+  transform: translateX(100%);
+}
+
+
+@media (max-width: 480px){
+    .itermname{
+      font-size: 1rem;
+    }
+
+    .itermdiv{
+      padding: 0.5rem;
+    }
+    .teamItem{
+      padding-left: 1rem;
+      padding-right:0rem;
+    }
+}

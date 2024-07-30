@@ -1,0 +1,163 @@
+.cricket_teams {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  background-color: aqua;
+  padding: 20px;
+}
+
+.teamsContainer {
+  overflow: hidden;
+  width: 100%;
+  height: 200px; /* Adjust height as needed */
+}
+
+.teamsList {
+  display: flex;
+  transition: transform 1s ease-in-out; /* Smooth transition */
+  will-change: transform; /* Optimizes performance */
+}
+
+.teamItem {
+  flex: 0 0 20%; /* Adjust width to fit items in one row */
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.navigationButtons {
+  display: flex;
+  justify-content: space-between;
+  width: 200px;
+  margin-top: 10px;
+}
+
+.navigationButtons button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+
+.footer {
+    background-color: #000000;
+    color: #fff;
+    padding: 20px 0;
+  }
+  
+  .container {
+    display: flex;
+    justify-content: space-between; /* Align left and right sides */
+    align-items: flex-start; /* Aligns items at the start of the container */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+  
+  .leftSide, .rightSide {
+    flex: 1;
+    padding: 0 20px;
+  }
+  
+  .footerHeading {
+    margin: 0 0 10px;
+    font-size: 1.5em;
+    text-align: left; /* Align heading to the left */
+  }
+  
+  .divider {
+    border: none;
+    border-bottom: 1px solid #fff;
+    margin: 10px 0;
+  }
+  
+  .socialMedia {
+    display: flex;
+    gap: 20px; /* Space between icons */
+  }
+
+  .socialmediaimage{
+    width: 5rem;
+    height: 5rem;
+  }
+  
+  .nav ul {
+    list-style-type: none;
+    display: flex;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .nav ul li {
+    margin: 5px 0;
+    padding: 0.5rem;
+  }
+  
+  .nav ul li a {
+    color: #fff;
+    text-decoration: none;
+  }
+  
+  .nav ul li a:hover {
+    text-decoration: underline;
+  }
+  
+  .copy {
+    margin-top: 20px;
+    font-size: 0.9em;
+    text-align: left; /* Align text to the left */
+  }
+  
+
+  
+  @media (min-width: 768px) and (max-width: 1024px) {
+    .footerHeading {
+      margin: 0 0 10px;
+      font-size: 1rem;
+      text-align: left; /* Align heading to the left */
+    }
+  }
+  
+  /* Media query for mobile phones */
+  @media (max-width: 480px) {
+    .leftSide, .rightSide {
+      flex: 1;
+      padding: 0  0px;
+    }
+    
+
+    .footerHeading{
+      font-size: 20px;
+    }
+
+    .socialMedia{
+      gap:10px;
+    }
+    .divider{
+      margin: 0%;
+    }
+    .nav ul li {
+       font-size: 10px;
+      padding:5px;
+    }
+
+    .socialmediaimage{
+      width:3rem;
+      height: 3rem;
+    }
+  }
+  
+  /* Media query for small screens */
+  @media (min-width: 480px) and (max-width: 768px) {
+    .registerContainer {
+      width: 80%;
+      padding: 10px;
+      height: 60%;
+    }
+  
+    .registerBtn {
+      width: 100%;
+      padding: 10px;
+    }
+  }
+  
