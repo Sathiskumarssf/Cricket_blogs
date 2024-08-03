@@ -8,7 +8,7 @@ export async function GET() {
     }
     const db = client.db('Cricket-blogs'); // Ensure the database name is correct
     const posts = await db.collection('users').find({}).toArray();
-    console.log('Posts:', posts); // Add logging here
+    
     return new Response(JSON.stringify(posts), { status: 200 });
   } catch (error) {
     console.error('Error fetching posts:', error);

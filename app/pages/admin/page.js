@@ -1,12 +1,12 @@
-"use client";
+"use client"
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import Navbar from '../components/Navbar';
-import style from '../styles/Frontpage.module.css';
-import Footer from '../components/Footer';
+import Navbar from '../../../components/Navbar';
+import style from '../../../styles/Frontpage.module.css';
+import Footer from '../../../components/Footer';
 import { ChevronLeftIcon, ChevronRightIcon, MagnifyingGlassIcon } from '@heroicons/react/24/solid';
 
-function Posts() {
+function Page() {
   const [posts, setPosts] = useState([]);
   const [error, setError] = useState(null);
   const [startIndex, setStartIndex] = useState(0);
@@ -16,14 +16,14 @@ function Posts() {
   const [direction, setDirection] = useState('');
   const [selectedOption, setSelectedOption] = useState('about');
   const [search, setSearch] = useState('');
-
+  const [editPlayerId, setEditPlayerId] = useState(null);
+  const [editedPlayerData, setEditedPlayerData] = useState({});
   const router = useRouter();
   const [adminUsername, setAdminUsername] = useState('');
 
   const decodeUsername = (encodedUsername) => {
     return atob(encodedUsername); // Base64 decode username
   };
-  
 
   useEffect(() => {
     const query = new URLSearchParams(window.location.search);
@@ -81,7 +81,7 @@ function Posts() {
     }
   }, [direction]);
 
-  const handleTeamClick = async (teamName, option,search) => {
+  const handleTeamClick = async (teamName, option, search = '') => {
     setSelectedTeam(teamName);
 
     try {
@@ -90,7 +90,7 @@ function Posts() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ teamName, option ,search}),
+        body: JSON.stringify({ teamName, option, search }),
       });
 
       if (!response.ok) {
@@ -103,12 +103,13 @@ function Posts() {
       console.error('Error fetching team data:', error);
     }
   };
-  
+
   const handleSearchChange = (event) => {
     const newSearched = event.target.value;
     setSearch(newSearched);
-    handleTeamClick(selectedTeam, selectedOption,search);
+    handleTeamClick(selectedTeam, selectedOption, newSearched);
   };
+
   const handleSelectChange = (event) => {
     const newSelectedOption = event.target.value;
     setSelectedOption(newSelectedOption);
@@ -120,6 +121,47 @@ function Posts() {
       handleTeamClick(selectedTeam, selectedOption);
     }
   }, [selectedTeam, selectedOption]);
+
+  const handleEditClick = (player) => {
+    setEditPlayerId(player.id); // Set the player ID
+    setEditedPlayerData({
+      ...player
+    });
+  };
+
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setEditedPlayerData({
+      ...editedPlayerData,
+      [name]: value
+    });
+  };
+
+  const handleUpdate = async () => {
+    try {
+      const response = await fetch('http://localhost:3000/api/updatePlayer', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ id: editPlayerId, ...editedPlayerData }), // Include player ID
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update player data');
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        alert('Player updated successfully');
+        setEditPlayerId(null);
+        setEditedPlayerData({});
+        handleTeamClick(selectedTeam, selectedOption); // Refresh player data
+      }
+    } catch (error) {
+      console.error('Error updating player:', error);
+    }
+  };
 
   if (error) {
     return <div>Error: {error}</div>;
@@ -165,8 +207,8 @@ function Posts() {
       </div>
 
       <main className="pt-4 pl-24 ">
-        {
-          (selectedTeam !="ALL")&&( <div className="flex items-center mb-4">
+        {selectedTeam !== "ALL" && (
+          <div className="flex items-center mb-4">
             <div className="relative w-64">
               <select
                 value={selectedOption}
@@ -183,52 +225,59 @@ function Posts() {
                 </svg>
               </div>
             </div>
-             {(selectedOption =="players") && (<div className="relative ml-4">
-              <input
-                type="text"
-                placeholder="Search..."
-                value={search}
-                onChange={handleSearchChange}
-                className="block w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
-              />
-              <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
-                <MagnifyingGlassIcon className="h-5 w-5 text-gray-500" />
+            {selectedOption === "players" && (
+              <div className="relative ml-4">
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  value={search}
+                  onChange={handleSearchChange}
+                  className="block w-full bg-white border border-gray-400 hover:border-gray-500 px-4 py-2 rounded shadow leading-tight focus:outline-none focus:shadow-outline"
+                />
+                <div className="absolute inset-y-0 right-0 pr-3 flex items-center pointer-events-none">
+                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-500" />
+                </div>
               </div>
-            </div>)}
-          </div>)
-        }
+            )}
+          </div>
+        )}
         {selectedTeam !== "ALL" ? (
           <div className='w-11/12 pt-5 '>
             {selectedOption === "players" && (
               <div className={style.playerscontainer}>
-                {teamData.map((item, index) => (
-                  <div className={style.player} key={index}>
+                {teamData.map((item) => (
+                  <div className={style.player} key={item.id}>
                     <img
                       src={item.imageUrl}
                       alt={item.playerName}
                       className={style.player_image}
                     />
-                    <p><strong>Player:</strong> {item.playerName}</p>
-                    <p><strong>Role:</strong> {item.role}</p>
+                    <p className='flex'><strong>Player:</strong> <input className='w-34' name='playerName' value={editPlayerId === item.id ? (editedPlayerData.playerName || item.playerName) : item.playerName} onChange={handleInputChange} placeholder={item.playerName}/></p>
+                    <p className='flex'><strong>Role:</strong><input className='w-34' name='role' value={editPlayerId === item.id ? (editedPlayerData.role || item.role) : item.role} onChange={handleInputChange} placeholder={item.role}/></p>
                     {item.role === 'Fast Bowler' && (
-                      <p><strong>Bowling Average:</strong> {item.bowlingAverage}</p>
+                      <p><strong>Bowling Average:</strong><input className='w-34' name='bowlingAverage' value={editPlayerId === item.id ? (editedPlayerData.bowlingAverage || item.bowlingAverage) : item.bowlingAverage} onChange={handleInputChange} placeholder={item.bowlingAverage}/></p>
                     )}
                     {item.role === 'Batsman' && (
-                      <p><strong>Batting Average:</strong> {item.battingAverage}</p>
+                      <p className='flex m-4'><strong>Batting Average:</strong> <input className='w-14' name='battingAverage' value={editPlayerId === item.id ? (editedPlayerData.battingAverage || item.battingAverage) : item.battingAverage} onChange={handleInputChange} placeholder={item.battingAverage}/></p>
                     )}
                     {item.role === 'Wicketkeeper-Batsman' && (
-                      <p><strong>Batting Average:</strong> {item.battingAverage}</p>
+                      <p className='flex'><strong>Batting Average:</strong> <input className='w-14' name='battingAverage' value={editPlayerId === item.id ? (editedPlayerData.battingAverage || item.battingAverage) : item.battingAverage} onChange={handleInputChange} placeholder={item.battingAverage}/></p>
                     )}
                     {item.role === 'All-Rounder' && (
-                      <><p><strong>Batting Average:</strong> {item.battingAverage}</p><p><strong>Bowling Average:</strong> {item.bowlingAverage}</p></>
+                      <>
+                        <p className='flex'><strong>Batting Average:</strong> <input className='w-14' name='battingAverage' value={editPlayerId === item.id ? (editedPlayerData.battingAverage || item.battingAverage) : item.battingAverage} onChange={handleInputChange} placeholder={item.battingAverage}/></p>
+                        <p className='flex'><strong>Bowling Average:</strong><input className='w-14' name='bowlingAverage' value={editPlayerId === item.id ? (editedPlayerData.bowlingAverage || item.bowlingAverage) : item.bowlingAverage} onChange={handleInputChange} placeholder={item.bowlingAverage}/></p>
+                      </>
                     )}
                     {item.hundreds > 0 && (
-                      <p><strong>Hundreds:</strong> {item.hundreds}</p>
+                      <p className='flex'><strong>Hundreds:</strong><input className='w-14' name='hundreds' value={editPlayerId === item.id ? (editedPlayerData.hundreds || item.hundreds) : item.hundreds} onChange={handleInputChange} placeholder={item.hundreds}/></p>
                     )}
                     {item.wickets > 0 && (
-                      <p><strong>Wickets:</strong> {item.wickets}</p>
+                      <p className='flex'><strong>Wickets:</strong><input className='w-14' name='wickets' value={editPlayerId === item.id ? (editedPlayerData.wickets || item.wickets) : item.wickets} onChange={handleInputChange} placeholder={item.wickets}/></p>
                     )}
-                    <p><strong>About {item.playerName}:</strong> {item.description}</p>
+                    <p className='flex'><strong>About:</strong> <input className='w-14' name='description' value={editPlayerId === item.id ? (editedPlayerData.description || item.description) : item.description} onChange={handleInputChange} placeholder={item.description}/></p>
+                    
+                    <button onClick={handleUpdate}>Update</button>
                   </div>
                 ))}
               </div>
@@ -286,4 +335,4 @@ function Posts() {
   );
 }
 
-export default Posts;
+export default Page;

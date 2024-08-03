@@ -1,12 +1,23 @@
 .teamsContainer {
   display: flex;
   align-items: center;
+   
 }
+
+.backgroundAll{
+  background-color: DEF9C4;
+}
+
+ 
 
 .itermdiv{
-  padding: 1rem;
+  padding: 0.3rem;
+  background-color: rgb(80, 180, 152);
 }
 
+
+ 
+ 
 .teamsList {
   display: flex;
   overflow: hidden;
@@ -16,18 +27,17 @@
 
 .itermname {
   font-size: 2rem; /* Adjust as needed */
+  padding: 0%;
   font-weight: normal; /* Adjust as needed */
   transition: color 0.3s ease, text-decoration-color 0.3s ease; /* Smooth transition for color change */
+   
 }
 
-/* Hover effect */
-.itermname:hover {
-  cursor: pointer;
-  background-color: yellow;
+.itermname:hover{
+  background-color: rgb(222, 249, 196);
   color: black;
-  text-decoration-color: yellow; /* Underline color */
-  text-decoration-thickness: 2px; /* Adjust thickness if needed */
 }
+ 
 
 .teamItem {
   flex: 0 0 20%;
@@ -43,6 +53,148 @@
 .next .teamItem {
   transform: translateX(100%);
 }
+
+.select_container {
+  display: inline-block;
+  width: 200px; /* Set a fixed width for the dropdown */
+  position: relative;
+}
+
+.select_container select {
+  width: 100%;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  appearance: none; /* Remove default arrow */
+  background-color: #fff;
+  color: #333;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.select_container::after {
+  content: '▼';
+  font-size: 12px;
+  color: #333;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none; /* Ensure arrow doesn't block clicks */
+}
+
+.select_container select:hover {
+  border-color: #888;
+}
+
+.select_container select:focus {
+  outline: none;
+  border-color: #007BFF;
+}
+
+.select_container option {
+  padding: 10px;
+  background-color: #fff;
+  color: #333;
+}
+
+
+.cover_background{
+   
+  width: 80vw;
+  height:90vh;
+  
+  border-radius: 2rem;
+
+}
+
+ 
+
+.selected {
+  background-color: rgb(80, 180, 152);
+  color: black;
+   
+}
+
+.playerscontainer {
+  display: flex;
+  flex-wrap: wrap; /* Allow wrapping of items */
+  gap: 20px; /* Adjust spacing between players as needed */
+  margin-bottom: 20px; /* Space between rows */
+   
+  border-radius: 1rem;
+  padding: 20px; /* Padding inside the container */
+  justify-content: space-around; 
+}
+
+.player {
+  width: 20vw; /* Full width by default */
+  height: auto;
+  background-color: rgb(156, 219, 166);
+  border: 1px solid #ccc; /* Optional: styling for each player */
+  border-radius: 1rem; /* Rounded corners for player card */
+  padding: 20px; /* Padding inside each player box */
+  box-sizing: border-box;
+  text-align: left; /* Center content inside player box */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px; /* Margin between each player card */
+  transition: transform 0.3s; /* Smooth transform on hover */
+}
+
+.player:hover {
+  transform: scale(1.05); /* Slightly enlarge on hover */
+}
+ 
+
+.aboutContainer{
+  background-color: rgb(156, 219, 166);
+  align-items: center;
+  justify-content: center;
+
+}
+
+.player_image {
+  border-radius: 50%; /* Make the image circular */
+  width:200px; /* Set a fixed width for the image */
+  height: 200px; /* Set a fixed height for the image */
+  margin-bottom: 10px;
+  object-fit: cover; /* Ensure the image covers the entire area */
+}
+ 
+
+
+.crickerBoardHeading{
+  font-size: 2rem;
+}
+
+.cricket_team_about{
+  font-size: 1.5rem;
+  padding-top: 1rem;
+}
+
+ 
+
+.cricketTeam{
+  font-size: 3rem;
+   
+}
+/* Responsive layout for tablets and larger screens */
+@media (min-width: 768px) {
+  .player {
+    width: calc(33.333% - 40px); /* 3 players per row, minus the gap */
+  }
+}
+
+/* Responsive layout for laptops and larger screens */
+@media (min-width: 1024px) {
+  .player {
+    width: calc(33.333% - 40px); /* 3 players per row, minus the gap */
+  }
+}
+
 
 
 @media (max-width: 480px){

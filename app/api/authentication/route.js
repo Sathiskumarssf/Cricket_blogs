@@ -38,7 +38,18 @@ export async function POST(req) {
       }
 
       // Authentication successful
-      return NextResponse.json({ message: 'User authenticated successfully' }, { status: 200 });
+      if(user.role =='admin'){
+        return NextResponse.json(
+          { message: 'admin authenticated successfully', data: user.name },
+          { status: 200 }
+        );
+      }else{
+        return NextResponse.json(
+          { message: 'User authenticated successfully', data: user.name },
+          { status: 200 }
+        );
+
+      }
     } else {
       return NextResponse.json({ message: 'Invalid action' }, { status: 400 });
     }

@@ -14,6 +14,10 @@ const LoginPage = () => {
   const [errorMessage, setErrorMessage] = useState(''); // State for error message
   const router = useRouter();
 
+  const encodeUsername = (username) => {
+    return btoa(username); // Base64 encode username
+  };
+
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
@@ -35,7 +39,17 @@ const LoginPage = () => {
 
       const data = await response.json();
       if (data.message === 'User authenticated successfully') {
-        router.push('/ '); // Navigate to the home page
+
+        const username = data.data;
+        const encodedUsername = encodeUsername(username);
+        router.push(`/?username=${encodeURIComponent(encodedUsername)}`); // Navigate to the home page
+        
+      }else if(data.message === 'admin authenticated successfully'){
+
+        const username = data.data;
+        const encodedUsername = encodeUsername(username);
+        router.push(`/pages/admin?username=${encodeURIComponent(encodedUsername)}`);
+
       } else if (data.message === 'Invalid credentials') {
         setErrorMessage('Password incorrect'); // Set error message
         setTimeout(() => setErrorMessage(''), 3000);
